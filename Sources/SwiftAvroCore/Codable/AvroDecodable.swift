@@ -508,6 +508,8 @@ extension DecodingHelper {
             let id = try decoder.primitive.decode() as Int
             return symbols.symbols[id]
         default:
+            let stringValue = try? decoder.primitive.decode() as String
+            print("Unable to decide \(stringValue)")
             throw BinaryDecodingError.typeMismatchWithSchema
         }
     }

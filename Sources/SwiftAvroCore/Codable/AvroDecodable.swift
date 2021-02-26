@@ -18,7 +18,7 @@
 
 import Foundation
 
-final class AvroDecoder {
+final public class AvroDecoder {
     private let schema: AvroSchema
     fileprivate let infoKey = CodingUserInfoKey(rawValue: "encodeOption")!
     public var userInfo: [CodingUserInfoKey : Any] = [CodingUserInfoKey : Any]()

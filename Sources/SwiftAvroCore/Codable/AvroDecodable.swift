@@ -22,16 +22,16 @@ final public class AvroDecoder {
     private let schema: AvroSchema
     fileprivate let infoKey = CodingUserInfoKey(rawValue: "encodeOption")!
     public var userInfo: [CodingUserInfoKey : Any] = [CodingUserInfoKey : Any]()
-    init(schema: AvroSchema) {
+    public init(schema: AvroSchema) {
         self.schema = schema
         userInfo[infoKey] = AvroEncodingOption.AvroBinary
     }
     
-    func setUserInfo(userInfo: [CodingUserInfoKey : Any]) {
+    public func setUserInfo(userInfo: [CodingUserInfoKey : Any]) {
         self.userInfo = userInfo
     }
     
-    func decode<T: Decodable>(_ type: T.Type, from data: Data) throws -> T {
+    public func decode<T: Decodable>(_ type: T.Type, from data: Data) throws -> T {
         let encodingOption = userInfo[infoKey] as! AvroEncodingOption
         switch encodingOption {
         case .AvroBinary:
@@ -44,7 +44,7 @@ final public class AvroDecoder {
         }
     }
     
-    func decode<K: Decodable, T: Decodable>(_ type: [K:T].Type, from data: Data) throws -> [K:T] {
+    public func decode<K: Decodable, T: Decodable>(_ type: [K:T].Type, from data: Data) throws -> [K:T] {
         return try data.withUnsafeBytes{ (pointer: UnsafePointer<UInt8>) in
             let decoder = try AvroBinaryDecoder(schema: schema, pointer: pointer, size: data.count)
             return try [K:T](decoder: decoder)
